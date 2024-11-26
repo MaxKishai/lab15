@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обробка рядка</title>
+</head>
+<body>
+    <h1>Обробка рядка</h1>
+    
+    <label for="inputText">Введіть рядок:</label>
+    <input type="text" id="inputText" placeholder="Введіть рядок">
+    <button onclick="processInput()">Обробити</button>
+    
+    <h3>Результат:</h3>
+    <p><strong>Оновлений рядок:</strong> <span id="updatedString"></span></p>
+    <p><strong>Кількість 'B' між '+' та '-':</strong> <span id="countB"></span></p>
+
+    <script>
+        function processInput() {
+            // Отримуємо значення з поля вводу
+            let input = document.getElementById('inputText').value;
+            
+            if (input === "") {
+                alert("Будь ласка, введіть рядок.");
+                return;
+            }
+
+            // Обробка рядка
+            let result = processString(input);
+            
+            // Вивести результат на сторінку
+            document.getElementById('updatedString').textContent = result.updatedString;
+            document.getElementById('countB').textContent = result.countB;
+        }
+
+        function processString(input) {
+            // Вставка пробілу після кожного символу 'A'
+            let updatedString = input.replace(/A/g, 'A ');
+
+            // Підрахунок кількості 'B' між '+' та '-'
+            let countB = 0;
+            let inRange = false; // чи зараз між '+' та '-'
+
+            for (let char of input) {
+                if (char === '+') {
+                    inRange = true; // Починаємо відлік
+                } else if (char === '-') {
+                    inRange = false; // Закінчуємо відлік
+                } else if (inRange && char === 'B') {
+                    countB++; // Лічимо 'B', якщо в межах
+                }
+            }
+
+            return {
+                updatedString: updatedString,
+                countB: countB
+            };
+        }
+    </script>
+      <a href="index.html">Назад</a>
+</body>
+</html>

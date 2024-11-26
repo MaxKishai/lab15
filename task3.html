@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шифрування тексту</title>
+</head>
+<body>
+    <h1>Програма шифрування</h1>
+    
+    <label for="inputText">Введіть текст:</label>
+    <input type="text" id="inputText" placeholder="Введіть текст">
+    <button onclick="encryptText()">Зашифрувати</button>
+    
+    <h3>Результат:</h3>
+    <p><strong>Зашифрований текст:</strong> <span id="encryptedText"></span></p>
+
+    <script>
+        function encryptText() {
+            // Отримуємо текст з поля вводу
+            let input = document.getElementById('inputText').value;
+            
+            if (input === "") {
+                alert("Будь ласка, введіть текст.");
+                return;
+            }
+
+            // Виконуємо шифрування
+            let encrypted = encrypt(input);
+
+            // Виводимо результат на сторінку
+            document.getElementById('encryptedText').textContent = encrypted;
+        }
+
+        function encrypt(text) {
+            return text.split('').map(char => {
+                // Перевіряємо, чи символ є буквою
+                if (/[а-яА-Яa-zA-Z]/.test(char)) {
+                    let isUpperCase = char === char.toUpperCase(); // Враховуємо регістр
+                    let nextChar;
+
+                    if (/[а-яА-Я]/.test(char)) {
+                        // Український алфавіт
+                        nextChar = char.toLowerCase() === 'я' ? 'а' : String.fromCharCode(char.charCodeAt(0) + 1);
+                        if (isUpperCase) nextChar = nextChar.toUpperCase();
+                    } else if (/[a-zA-Z]/.test(char)) {
+                        // Англійський алфавіт
+                        nextChar = char.toLowerCase() === 'z' ? 'a' : String.fromCharCode(char.charCodeAt(0) + 1);
+                        if (isUpperCase) nextChar = nextChar.toUpperCase();
+                    }
+
+                    return nextChar;
+                }
+
+                // Якщо це не літера, залишаємо символ без змін
+                return char;
+            }).join('');
+        }
+    </script>
+      <a href="index.html">Назад</a>
+</body>
+</html>

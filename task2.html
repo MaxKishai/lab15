@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обробка слів</title>
+</head>
+<body>
+    <h1>Обробка слів</h1>
+    
+    <label for="inputText">Введіть текст:</label>
+    <input type="text" id="inputText" placeholder="Введіть текст">
+    <button onclick="processInput()">Обробити</button>
+    
+    <h3>Результат:</h3>
+    <p><strong>Кількість слів, де друга буква - 'р':</strong> <span id="countWords"></span></p>
+    <p><strong>Оновлений текст:</strong> <span id="updatedText"></span></p>
+
+    <script>
+        function processInput() {
+            // Отримуємо значення з поля вводу
+            let input = document.getElementById('inputText').value;
+            
+            if (input === "") {
+                alert("Будь ласка, введіть текст.");
+                return;
+            }
+
+            // Обробка рядка
+            let result = processText(input);
+            
+            // Вивести результат на сторінку
+            document.getElementById('countWords').textContent = result.countWords;
+            document.getElementById('updatedText').textContent = result.updatedText;
+        }
+
+        function processText(input) {
+            // Розбиваємо текст на слова
+            let words = input.split(/\s+/);
+            let countWords = 0;
+            let updatedWords = words.map(word => {
+                // Видаляємо останню букву з кожного слова
+                let updatedWord = word.slice(0, -1);
+
+                // Перевіряємо, чи є друга буква 'р'
+                if (updatedWord.length > 1 && updatedWord[1] === 'р') {
+                    countWords++;
+                }
+
+                return updatedWord;
+            });
+
+            // Об'єднуємо оновлені слова в один рядок
+            let updatedText = updatedWords.join(' ');
+
+            return {
+                countWords: countWords,
+                updatedText: updatedText
+            };
+        }
+    </script>
+      <a href="index.html">Назад</a>
+</body>
+</html>

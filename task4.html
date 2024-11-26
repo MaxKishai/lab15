@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шифрування тексту</title>
+</head>
+<body>
+    <h1>Програма шифрування</h1>
+    
+    <label for="inputText">Введіть текст:</label>
+    <input type="text" id="inputText" placeholder="Введіть текст">
+    <button onclick="encryptText()">Зашифрувати</button>
+    
+    <h3>Результат:</h3>
+    <p><strong>Зашифрований текст:</strong> <span id="encryptedText"></span></p>
+
+    <script>
+        function encryptText() {
+            // Отримуємо текст з поля вводу
+            let input = document.getElementById('inputText').value;
+            
+            if (input === "") {
+                alert("Будь ласка, введіть текст.");
+                return;
+            }
+
+            // Виконуємо шифрування
+            let encrypted = encrypt(input);
+
+            // Виводимо результат на сторінку
+            document.getElementById('encryptedText').textContent = encrypted;
+        }
+
+        function encrypt(text) {
+            // Розбиваємо текст на слова
+            return text.split(/\s+/).map(word => {
+                // Якщо слово занадто коротке, залишаємо його без змін
+                if (word.length <= 3) return word;
+
+                // Перемішуємо внутрішні букви
+                let middle = word.slice(1, -1).split('');
+                for (let i = middle.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [middle[i], middle[j]] = [middle[j], middle[i]];
+                }
+
+                // Повертаємо слово з перемішаними буквами
+                return word[0] + middle.join('') + word[word.length - 1];
+            }).join(' ');
+        }
+    </script>
+    <a href="index.html">Назад</a>
+</body>
+</html>
